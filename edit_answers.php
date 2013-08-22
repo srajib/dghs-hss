@@ -1,21 +1,31 @@
-<?php
-session_start();
+ <?php
 include('lib/connect.php');
-if(empty($_SESSION['loginid']))
-{
-	print "<script>";
-	print " self.location='index.php'"; // Comment this line if you don't want to redirect
+$id =$_REQUEST['id'];
+$result = mysql_query("SELECT * FROM hss_answers WHERE answer_id= '$id'");
+$test = mysql_fetch_array($result);
+if (!$result) 
+		{
+		die("Error: Data not found..");
+		}
+				$answer_1=$test['answer_ans1'] ;
+				$answer_2=$test['answer_ans2'] ;
+
+if(isset($_POST['save']))
+{	
+	$answer_1_save = $_POST['answer_ans1'];
+	$answer_2_save = $_POST['answer_ans2'];
+	mysql_query("UPDATE hss_answers SET answer_ans1='$answer_1_save',answer_ans2='$answer_2_save' WHERE answer_id = '$id'")
+	or die(mysql_error()); 
+	//echo "Saved!";
+ print "<script>";
+	print " self.location='add_answers.php'"; // Comment this line if you don't want to redirect
 	print "</script>";
 }
-
-
-if($_SESSION['loginid'] >= 3)
-{
-	print "<script>";
-	print " self.location='org.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
+//mysql_close($conn);
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +92,7 @@ $("#sample-accordion").accordion({ active: 2 });
 				
 				<div class="info-details">
 				
-					<h4>Welcome back, <font color="orange"><?php echo $_SESSION['email']; ?></font>.</h4>
+					<h4>Welcome, <font color="orange"><?php echo $_SESSION['email']; ?></font>.</h4>
 					
 					<p>
 						Logged in as <?php echo $_SESSION['email']; ?>
@@ -230,65 +240,25 @@ $("#sample-accordion").accordion({ active: 2 });
 							Monitoring implementation of improvement plan of HSS
 						</h3>					
 					</div> <!-- /.widget-header -->
-				   
-				 <h3>  <a href="add_question_type.php"> Manage Answers </a></h3>
-			    <form name="frm" action="add_answers.php" method="post">
-			
+				
+				
+				<form method="post">
+				<table>
 				<tr>
-				<td>
-				Select Question :
-						     <select id="answer_q_id" name="answer_q_id">
-                                        <option value="">--Select Type--</option>
-                                         <?php
-										 $type = mysql_query("SELECT * FROM hss_questions");
-										 while($rowtype = mysql_fetch_array($type))
-										 {
-										 ?>
-                                            <option value="<?php echo $rowtype['question_id']; ?>"><?php echo $rowtype['question_desc']; ?></option>
-                                         <?php
-										 }
-										 ?>
-                           </select>
-				</td>
+				<td>Answer1:</td>
+				<td><input type="text" name="answer_ans1" value="<?php echo $answer_1 ?>"/></td>
 				</tr>
 				
 				<tr>
-					<td>Answer1 : <input type="text" name="answer_ans1" ></td>
+				<td>Answer2:</td>
+				<td><input type="text" name="answer_ans2" value="<?php echo $answer_2 ?>"/></td>
 				</tr>
-			    <tr>
-				  <td>Answer2 : <input type="text" name="answer_ans2" ></td>
+				<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" name="save" value="save" /></td>
 				</tr>
-			    <tr>
-					<td><input type="hidden" name="answer_ans3" ></td>
-				</tr>
-				<input type="submit" name="submit" value="submit">
+				</table>
 				</form>
-				<?php	
-				   $date=date('d-m-Y h:m:i');
-				   $submit=$_POST['submit'];
-                   if($submit)	{			
-					$sql=mysql_query("INSERT INTO hss_answers(answer_id,answer_q_id,answer_ans1,answer_ans2,answer_ans3,answer_created,answer_modified,answer_updated_by_user)
-					VALUES('','$_POST[answer_q_id]','$_POST[answer_ans1]','$_POST[answer_ans2]','$_POST[answer_ans3]','$date','$date','1')");
-					echo "1 record added";
-					}
-					
-					 $question_type=mysql_query("SELECT * FROM hss_answers");
-						 
-						   while($question_types = mysql_fetch_array($question_type))
-						    {
-           					echo $question_types['answer_id'].'. ';	
-							$qid= $question_types['answer_q_id'];
-                            $questions=mysql_query("SELECT * FROM hss_questions where question_id='$qid'");   
- 							while($q_answer = mysql_fetch_assoc($questions))
-									{
-									 echo $question = $q_answer['question_desc'].'&nbsp;&nbsp; --  ';
-									 }
-							echo $question_types['answer_ans1'].'&nbsp;&nbsp;';	echo $question_types['answer_ans2'].'';		
-							echo ' -- <a href=edit_answers.php?id='.$question_types['answer_id'].'>Edit</a> |';
-							echo ' <a href=del_answers.php?id='.$question_types['answer_id'].'>Delete</a><br>';							
-       						}
-							
-							?>
 				   </div>
 				              </div>
 				            </div>

@@ -193,11 +193,9 @@ if($_SESSION['loginid'] <= 2)
 			<?php
 				$first  = strtotime('first day this month');
 				$months = array();
-				for ($i = 1; $i >-2; $i--) {
+				for ($i = 0; $i >-1; $i--) {
 				array_push($months, date('F', strtotime("$i month", $first)));
 				}
-				
-				
 			?>
 			
 			<script>
@@ -300,12 +298,21 @@ if($_SESSION['loginid'] <= 2)
 				           <div class="accordion-inner">
 						   
 							<?php
-						    $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id");
+						    $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id order by question_id asc" );
+							 if($question_types['type_name']=='Co-ordination')
+							 {
+							  echo "Note:<br/>Inter Unit/Inter Department co-ordination meeting with service provider of indoor/Outdoor
+/Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
+							 
+							 }
+							 
+							 
 							 
 							 $i=0;
 							  while($results = mysql_fetch_array($question))
 								{   $i++;
 									$qid= $results['question_id'];
+									
 								    echo '<div class="">'.$i.'. '.$results['question_desc'].'</div>';
 									$answer_qid= $results['question_id'];
 									
