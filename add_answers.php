@@ -269,7 +269,7 @@ $("#sample-accordion").accordion({ active: 2 });
                    if($submit)	{			
 					$sql=mysql_query("INSERT INTO hss_answers(answer_id,answer_q_id,answer_ans1,answer_ans2,answer_ans3,answer_created,answer_modified,answer_updated_by_user)
 					VALUES('','$_POST[answer_q_id]','$_POST[answer_ans1]','$_POST[answer_ans2]','$_POST[answer_ans3]','$date','$date','1')");
-					echo "1 record added";
+					echo "1 record added <br>";
 					}
 					
 					 $question_type=mysql_query("SELECT * FROM hss_answers");

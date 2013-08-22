@@ -282,7 +282,7 @@ if($_SESSION['loginid'] <= 2)
 				             
 				               
                         <?php 
-						   $question_type=mysql_query("SELECT * FROM hss_question_type");
+						   $question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC");
 						   while($question_types = mysql_fetch_array($question_type))
 						   {?>
 						    <div class="accordion-heading">
@@ -299,7 +299,7 @@ if($_SESSION['loginid'] <= 2)
 						   
 							<?php
 						    $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id order by question_id asc" );
-							 if($question_types['type_name']=='Co-ordination')
+							 if($question_types['type_name']=='Co-ordination Meeting')
 							 {
 							  echo "Note:<br/>Inter Unit/Inter Department co-ordination meeting with service provider of indoor/Outdoor
 /Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
