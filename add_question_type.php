@@ -1,5 +1,4 @@
-<?php
-session_start();
+<?php session_start();
 include('lib/connect.php');
 if(empty($_SESSION['loginid']))
 {
@@ -243,7 +242,7 @@ $("#sample-accordion").accordion({ active: 2 });
 				<?php	
 				
 				 
-				         $question_type=mysql_query("SELECT * FROM hss_question_type");
+				         $question_type=mysql_query("SELECT * FROM hss_question_type order by type_id asc");
 						 
 						   while($question_types = mysql_fetch_array($question_type))
 						   {
@@ -253,12 +252,13 @@ $("#sample-accordion").accordion({ active: 2 });
 							echo '| <a href=edit_q_type.php?id='.$question_types['type_id'].'>Edit</a> |';
 							echo ' <a href=del_q_type.php?id='.$question_types['type_id'].'>Delete</a><br>';
        						}
-				  $date=date('d-m-Y');
+				   $date=date('d-m-Y h:m:i');
+				   $submit=$_POST['submit'];
                    if($submit)	{			
 					$sql=mysql_query("INSERT INTO hss_question_type(type_id,type_name,type_active,type_created,type_modified,type_updated_by_user)
 					VALUES('','$_POST[type_name]','1','$date','$date','1')");
 
-					echo "1 record added";
+				    echo "<span style='color:green;'>1 record added.</span><br/>";
 					}
 
 					//mysql_close($con);
