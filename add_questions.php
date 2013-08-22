@@ -232,38 +232,47 @@ $("#sample-accordion").accordion({ active: 2 });
 					</div> <!-- /.widget-header -->
 				   
 				 <h3>  <a href="add_question_type.php"> Add Questions </a></h3>
-				<form name="frm" action="" method="post">
+			    <form name="frm" action="add_questions.php" method="post">
 				<tr>
 				<td>Question : <input type="text" name="question_desc" ></td>
 				</tr>
 				<tr>
 				<td>
-				Question type : <input type="text" name="question_type" >
+				Question type :
+						     <select id="question_type_id" name="question_type_id">
+                                        <option value="">--Select Type--</option>
+                                         <?php
+										 $type = mysql_query("SELECT * FROM hss_question_type");
+										 while($rowtype = mysql_fetch_array($type))
+										 {
+										 ?>
+                                            <option value="<?php echo $rowtype['type_id']; ?>"><?php echo $rowtype['type_name']; ?></option>
+                                         <?php
+										 }
+										 ?>
+                           </select>
 				</td>
 				</tr>
 				
 				<input type="submit" name="submit" value="submit">
 				</form>
 				<?php	
-				   $date=date('d-m-Y');
+				   $date=date('d-m-Y h:m:i');
+				   $submit=$_POST['submit'];
                    if($submit)	{			
-					$sql=mysql_query("INSERT INTO hss_question_type(type_id,type_name,type_active,type_created,type_modified,type_updated_by_user)
-					VALUES('','$_POST[type_name]','1','$date','$date','1')");
-
+					$sql=mysql_query("INSERT INTO hss_questions(question_id,question_desc,question_type_id,question_active,question_created,question_modified,question_updated_by_user)
+					VALUES('','$_POST[question_desc]','$_POST[question_type_id]','1','$date','$date','1')");
 					echo "1 record added";
 					}
-
-					//mysql_close($con);
-					
-					
 					
 					 $question_type=mysql_query("SELECT * FROM hss_questions");
 						 
 						   while($question_types = mysql_fetch_array($question_type))
-						   {
-							
+						    {
            					echo $question_types['question_id'].'. ';	  
-							echo $question_types['question_desc'].'<br>';							
+							echo $question_types['question_desc'].'';		
+							echo ' | <a href=edit_q.php?id='.$question_types['question_id'].'>Edit</a> |';
+							echo ' <a href=del_q.php?id='.$question_types['question_id'].'>Delete</a><br>';							
        						}
 							
 							?>

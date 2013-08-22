@@ -1,21 +1,29 @@
-<?php
-session_start();
+ <?php
 include('lib/connect.php');
-if(empty($_SESSION['loginid']))
-{
-	print "<script>";
-	print " self.location='index.php'"; // Comment this line if you don't want to redirect
+$id =$_REQUEST['id'];
+$result = mysql_query("SELECT * FROM hss_question_type WHERE type_id = '$id'");
+$test = mysql_fetch_array($result);
+if (!$result) 
+		{
+		die("Error: Data not found..");
+		}
+				$type_name=$test['type_name'] ;
+
+if(isset($_POST['save']))
+{	
+	$type_name_save = $_POST['type_name'];
+	mysql_query("UPDATE hss_question_type SET type_name='$type_name_save' WHERE type_id = '$id'")
+	or die(mysql_error()); 
+	//echo "Saved!";
+ print "<script>";
+	print " self.location='add_question_type.php'"; // Comment this line if you don't want to redirect
 	print "</script>";
 }
-
-
-if($_SESSION['loginid'] >= 3)
-{
-	print "<script>";
-	print " self.location='org.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
+//mysql_close($conn);
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -230,40 +238,20 @@ $("#sample-accordion").accordion({ active: 2 });
 							Monitoring implementation of improvement plan of HSS
 						</h3>					
 					</div> <!-- /.widget-header -->
-				   
-				 <h3>  <a href="add_question_type.php"> Add Question Types </a></h3>
-				<form name="frm" action="add_question_type.php" method="post">
 				
-				Question type : <input type="text" name="type_name" >
 				
-				<input type="submit" name="submit" value="submit">
+				<form method="post">
+				<table>
+				<tr>
+				<td>Title:</td>
+				<td><input type="text" name="type_name" value="<?php echo $type_name ?>"/></td>
+				</tr>
+				<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" name="save" value="save" /></td>
+				</tr>
+				</table>
 				</form>
-				
-				
-				<?php	
-				
-				 
-				         $question_type=mysql_query("SELECT * FROM hss_question_type");
-						 
-						   while($question_types = mysql_fetch_array($question_type))
-						   {
-							
-           					echo $question_types['type_id'].'. ';	  
-							echo $question_types['type_name'].'&nbsp;&nbsp;';
-							echo '| <a href=edit_q_type.php?id='.$question_types['type_id'].'>Edit</a> |';
-							echo ' <a href=del_q_type.php?id='.$question_types['type_id'].'>Delete</a><br>';
-       						}
-				  $date=date('d-m-Y');
-                   if($submit)	{			
-					$sql=mysql_query("INSERT INTO hss_question_type(type_id,type_name,type_active,type_created,type_modified,type_updated_by_user)
-					VALUES('','$_POST[type_name]','1','$date','$date','1')");
-
-					echo "1 record added";
-					}
-
-					//mysql_close($con);
-					
-					?>
 				   </div>
 				              </div>
 				            </div>

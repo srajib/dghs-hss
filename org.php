@@ -175,15 +175,26 @@ if($_SESSION['loginid'] <= 2)
 			
 			Select Form 
 			<select name="answer_storage_form" style="width:350px;">
-			<option value="monitoring_improvement">Monitoring implementation of improvement plan of HSS</option>
-			<option value="test">Test</option>
-			</select><br/>
+                                        <option value="">--Select Form--</option>
+                                         <?php
+										 $forms = mysql_query("SELECT * FROM hss_forms");
+										 while($form = mysql_fetch_array($forms))
+										 {
+										 ?>
+                                            <option value="<?php echo $form['form_id']; ?>"><?php echo $form['form_name']; ?></option>
+                                         <?php
+										 }
+										 ?>
+             </select>
+			
+			
+			<br/>
 			Select Period
 			<?php
 				$first  = strtotime('first day this month');
 				$months = array();
-				for ($i = 5; $i >-1; $i--) {
-				array_push($months, date('F', strtotime("-$i month", $first)));
+				for ($i = 1; $i >-2; $i--) {
+				array_push($months, date('F', strtotime("$i month", $first)));
 				}
 				
 				
@@ -232,9 +243,15 @@ if($_SESSION['loginid'] <= 2)
 				 
 				 
 			</script>
-			
+			<?php  $base_month ='08-2013';
+			       $base_month_date ='01-08-2013';
+				   $current_month=date('m-Y');
+			?>
 			<select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
 				<option value="">==Select Month==</option>
+				<?php if($base_month==$current_month) { } else { ?>
+				<option value="<?php echo $base_month;?>"><?php echo date('F',strtotime($base_month_date)).'-'.date('Y'); ?></option>
+				<?php } ?>
 				<? foreach($months as $month): ?>
 				<option value="<?php echo date('m',strtotime($month)).'-'.date('Y');?>"><?php echo $month.'-'.date('Y'); ?></option>
 				<? endforeach; ?>
@@ -289,8 +306,7 @@ if($_SESSION['loginid'] <= 2)
 							  while($results = mysql_fetch_array($question))
 								{   $i++;
 									$qid= $results['question_id'];
-									echo '<div class="">'.$i.'. '.$results['question_desc'].   '&nbsp;&nbsp; <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Evidence</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Doc</a></div><div></div>';
-								
+								    echo '<div class="">'.$i.'. '.$results['question_desc'].'</div>';
 									$answer_qid= $results['question_id'];
 									
 									$answers = mysql_query("SELECT * FROM hss_answers where answer_q_id=$qid");
@@ -309,11 +325,14 @@ if($_SESSION['loginid'] <= 2)
 									 echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer2.'> '.$answer2.'&nbsp;&nbsp;';
 									
 									if($answer3){ echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer3.'> '.$answer3;}else {}
+									
+									
 									?>
 									
 									
-									
-									<?php }
+									<?php } 
+										echo   '<div>&nbsp;&nbsp; <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Document</a></div><div></div>';
+								
 }
 								?>
 								

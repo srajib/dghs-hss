@@ -82,7 +82,7 @@ $("#sample-accordion").accordion({ active: 2 });
 				
 				<div class="info-details">
 				
-					<h4>Welcome, <font color="orange"><?php echo $_SESSION['email']; ?></font>.</h4>
+					<h4>Welcome back, <font color="orange"><?php echo $_SESSION['email']; ?></font>.</h4>
 					
 					<p>
 						Logged in as <?php echo $_SESSION['email']; ?>
@@ -231,38 +231,36 @@ $("#sample-accordion").accordion({ active: 2 });
 						</h3>					
 					</div> <!-- /.widget-header -->
 				   
-				 <h3>  <a href="add_question_type.php"> Add Question Types </a></h3>
-				<form name="frm" action="add_question_type.php" method="post">
+				 <h3>  <a href="add_forms.php"> Add Forms</a></h3>
+			    <form name="frm" action="add_forms.php" method="post">
+				<tr>
+				<td>Form Name : <input type="text" name="form_name" ></td>
+				</tr>
+				<tr>
 				
-				Question type : <input type="text" name="type_name" >
+				</tr>
 				
 				<input type="submit" name="submit" value="submit">
 				</form>
-				
-				
 				<?php	
-				
-				 
-				         $question_type=mysql_query("SELECT * FROM hss_question_type");
-						 
-						   while($question_types = mysql_fetch_array($question_type))
-						   {
-							
-           					echo $question_types['type_id'].'. ';	  
-							echo $question_types['type_name'].'&nbsp;&nbsp;';
-							echo '| <a href=edit_q_type.php?id='.$question_types['type_id'].'>Edit</a> |';
-							echo ' <a href=del_q_type.php?id='.$question_types['type_id'].'>Delete</a><br>';
-       						}
-				  $date=date('d-m-Y');
-                   if($submit)	{			
-					$sql=mysql_query("INSERT INTO hss_question_type(type_id,type_name,type_active,type_created,type_modified,type_updated_by_user)
-					VALUES('','$_POST[type_name]','1','$date','$date','1')");
-
-					echo "1 record added";
+				   $date=date('d-m-Y h:m:i');
+				   $submit=$_POST['submit'];
+                   if($submit){			
+					$sql=mysql_query("INSERT INTO hss_forms(form_id,form_name,form_active,form_created,form_modified,form_updated_by_user)
+					VALUES('','$_POST[form_name]','1','$date','$date','1')");
+					echo "<span style='color:green;'>1 record added.</span><br/>";
 					}
-
-					//mysql_close($con);
 					
+					 $forms=mysql_query("SELECT * FROM hss_forms");
+						 
+						   while($form = mysql_fetch_array($forms))
+						    {
+           					echo $form['form_id'].'. ';	  
+							echo $form['form_name'].'';		
+							echo ' | <a href=edit_form.php?id='.$form['form_id'].'>Edit</a> |';
+							echo ' <a href=del_form.php?id='.$form['form_id'].'>Delete</a><br>';							
+       						}
+							
 					?>
 				   </div>
 				              </div>
