@@ -2,7 +2,7 @@
 session_start();
 //error_reporting(0);
 include('lib/connect.php');
-//include('inc.functions.generic.php');
+include('inc.functions.generic.php');
 if(empty($_SESSION['loginid']))
 {
 	print "<script>";
@@ -279,7 +279,7 @@ if($_SESSION['loginid'] <= 2)
 				             
 				               
                         <?php 
-							$user_email=$_SESSION['email'] ;
+							 $user_email=$_SESSION['email'] ;
 							$month=$_REQUEST['month'];	
 							$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'");
 					
@@ -377,74 +377,27 @@ if($_SESSION['loginid'] <= 2)
 					</div> <!-- /.widget-content -->
 					<?php 
 					$month=$_GET['month'];
-					//echo "SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'";
-				    //$test=mysql_fetch_array($query);
-					//echo $keyterm = current(mysql_fetch_array($query));
-					//print_r(mysql_fetch_array($query
+				
 		
 				    if($_POST['submit']){						
-					//$exception_field=array('submit','param','answer_storage_month_year_2');
-					//$str=createMySqlUpdateString($_POST, $exception_field);
+					$exception_field=array('submit','param','answer_storage_month_year_2');
+					$str=createMySqlUpdateString($_POST, $exception_field);
 					/******************************************************/	
-					//$str_k=$str['k'];
-					$q1=$_POST['answer_storage_q1_answer'];
-					$q2=$_POST['answer_storage_q2_answer'];
-					$q3=$_POST['answer_storage_q3_answer'];
-					$q4=$_POST['answer_storage_q4_answer'];
-					$q5=$_POST['answer_storage_q5_answer'];
-					$q6=$_POST['answer_storage_q6_answer'];
-					$q7=$_POST['answer_storage_q7_answer'];
-					$q8=$_POST['answer_storage_q8_answer'];
-					$q9=$_POST['answer_storage_q9_answer'];
-					$q10=$_POST['answer_storage_q10_answer'];
-					$q11=$_POST['answer_storage_q11_answer'];
-					$q12=$_POST['answer_storage_q12_answer'];
-					$q13=$_POST['answer_storage_q13_answer'];
-					$q14=$_POST['answer_storage_q14_answer'];
-					$q15=$_POST['answer_storage_q15_answer'];
-					$q16=$_POST['answer_storage_q16_answer'];
-					$q17=$_POST['answer_storage_q17_answer'];
-					$q18=$_POST['answer_storage_q18_answer'];
-					$q19=$_POST['answer_storage_q19_answer'];
-					$q20=$_POST['answer_storage_q20_answer'];
-					$q21=$_POST['answer_storage_q21_answer'];
-					$q22=$_POST['answer_storage_q22_answer'];
-					$q23=$_POST['answer_storage_q23_answer'];
-					$q24=$_POST['answer_storage_q24_answer'];
-					$q25=$_POST['answer_storage_q25_answer'];
-					$q26=$_POST['answer_storage_q26_answer'];
-					$q27=$_POST['answer_storage_q27_answer'];
-					$q28=$_POST['answer_storage_q28_answer'];
-					$q29=$_POST['answer_storage_q29_answer'];
-					$q30=$_POST['answer_storage_q30_answer'];
-					$q31=$_POST['answer_storage_q31_answer'];
-					$q32=$_POST['answer_storage_q32_answer'];
-					$q33=$_POST['answer_storage_q33_answer'];
-					$q34=$_POST['answer_storage_q34_answer'];
-					$q35=$_POST['answer_storage_q35_answer'];
-					$q36=$_POST['answer_storage_q36_answer'];
-					$q37=$_POST['answer_storage_q37_answer'];
-					$q38=$_POST['answer_storage_q38_answer'];
-					$q39=$_POST['answer_storage_q39_answer'];
-					$q40=$_POST['answer_storage_q40_answer'];
-					$q41=$_POST['answer_storage_q41_answer'];
-					$q42=$_POST['answer_storage_q42_answer'];
-					$q43=$_POST['answer_storage_q43_answer'];
-					$q44=$_POST['answer_storage_q44_answer'];
-					$q45=$_POST['answer_storage_q45_answer'];
-					$q46=$_POST['answer_storage_q46_answer'];
-					$q47=$_POST['answer_storage_q47_answer'];
-					$q48=$_POST['answer_storage_q48_answer'];
+				
+					
+					/*
 					$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'");
 					 while($row=mysql_fetch_object($query)){
 					 $ans_strg_id=$row->answer_storage_id;
 					}
-					$sql="UPDATE hss_answer_storage SET answer_storage_q1_answer='$q1',answer_storage_q2_answer='$q2',answer_storage_q3_answer='$q3',answer_storage_q4_answer='$q4',answer_storage_q5_answer='$q5',answer_storage_q6_answer='$q6',answer_storage_q7_answer='$q7',answer_storage_q8_answer='$q8',answer_storage_q9_answer='$q9',answer_storage_q10_answer='$q10',answer_storage_q11_answer='$q11',answer_storage_q12_answer='$q12',answer_storage_q13_answer='$q13',answer_storage_q14_answer='$q14',answer_storage_q15_answer='$q15',answer_storage_q16_answer='$q16',answer_storage_q17_answer='$q17',answer_storage_q18_answer='$q18',answer_storage_q19_answer='$q19',answer_storage_q20_answer='$q20',answer_storage_q21_answer='$q21',answer_storage_q22_answer='$q22',answer_storage_q23_answer='$q23',answer_storage_q24_answer='$q24',answer_storage_q25_answer='$q25',answer_storage_q26_answer='$q26',answer_storage_q27_answer='$q27',answer_storage_q28_answer='$q28',answer_storage_q29_answer='$q29',answer_storage_q30_answer='$q30',answer_storage_q31_answer='$q31',answer_storage_q32_answer='$q32',answer_storage_q33_answer='$q33',answer_storage_q34_answer='$q34',answer_storage_q35_answer='$q35',answer_storage_q36_answer='$q36',answer_storage_q37_answer='$q37',answer_storage_q38_answer='$q38',answer_storage_q39_answer='$q39',answer_storage_q40_answer='$q40',answer_storage_q41_answer='$q41',answer_storage_q42_answer='$q42',answer_storage_q43_answer='$q43',answer_storage_q44_answer='$q44',answer_storage_q45_answer='$q45',answer_storage_q46_answer='$q46',answer_storage_q47_answer='$q47',answer_storage_q48_answer='$q48' WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'"; 
+					*/
+					
+					$sql="UPDATE hss_answer_storage SET $str where answer_storage_org_id='$user_email' and answer_storage_month_year='$month'"; 
 					
 					mysql_query($sql);
-					//print "<script>";
-					//print " self.location='org.php'"; // Comment this line if you don't want to redirect
-					//print "</script>";
+					print "<script>";
+					print " self.location='org.php'"; // Comment this line if you don't want to redirect
+					print "</script>";
 	}
 	?>
 					

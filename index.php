@@ -100,7 +100,7 @@ if(isset($_POST['submit']))
 			<div class="login-fields">
 				
 			  <p>Sign in using your ID & Password:<br>
-                Health System Strengthening :<br>
+                HSS Improvement Monitoring:<br>
                 <?php echo $msg; ?></p>
 				
 				<div class="field">

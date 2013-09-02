@@ -363,7 +363,7 @@ if($_SESSION['loginid'] <= 2)
 					/******************************************************/	
 					$str_k=$str['k'];
 					$str_v=$str['v'];
-					$sql="INSERT INTO hss_answer_storage($str_k) values($str_v)";
+					$sql="INSERT INTO hss_answer_storage($str_k)values($str_v)";
 					mysql_query($sql);
 					print "<script>";
 					print " self.location='success.php'"; // Comment this line if you don't want to redirect

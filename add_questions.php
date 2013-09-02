@@ -262,14 +262,15 @@ $("#sample-accordion").accordion({ active: 2 });
                    if($submit)	{			
 					$sql=mysql_query("INSERT INTO hss_questions(question_id,question_desc,question_type_id,question_active,question_created,question_modified,question_updated_by_user)
 					VALUES('','$_POST[question_desc]','$_POST[question_type_id]','1','$date','$date','1')");
-					echo "1 record added";
+					echo "1 record added.<br>";
 					}
 					
 					 $question_type=mysql_query("SELECT * FROM hss_questions");
-						 
+						 $i=1;
 						   while($question_types = mysql_fetch_array($question_type))
 						    {
-           					echo $question_types['question_id'].'. ';	  
+							echo $i++.'. ';
+           					//echo $question_types['question_id'].'. ';	  
 							echo $question_types['question_desc'].'';		
 							echo ' | <a href=edit_q.php?id='.$question_types['question_id'].'>Edit</a> |';
 							echo ' <a href=del_q.php?id='.$question_types['question_id'].'>Delete</a><br>';							
