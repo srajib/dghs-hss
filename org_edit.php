@@ -279,7 +279,7 @@ if($_SESSION['loginid'] <= 2)
 				             
 				               
                         <?php 
-							 $user_email=$_SESSION['email'] ;
+							$user_email=$_SESSION['email'] ;
 							$month=$_REQUEST['month'];	
 							$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'");
 					
@@ -296,6 +296,17 @@ if($_SESSION['loginid'] <= 2)
 						    while($qa = mysql_fetch_array($question))
 							 {
 							  return $qa;
+							 }
+						   }
+						   
+						    function answerReturn($qid,$month,$user_email )
+						   {
+						   
+						    $answer = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage JOIN hss_questions AS q ON q.question_id=hss_answer_storage.answer_storage_q".$qid." WHERE hss_answer_storage.answer_storage_org_id='".$user_email."' AND hss_answer_storage.answer_storage_month_year='".$month."' AND hss_answer_storage.answer_storage_q".$qid.'='.$qid);
+						   
+						    while($an = mysql_fetch_array($answer))
+							 {
+							  return $an;
 							 }
 						   }
 						   
@@ -331,24 +342,24 @@ if($_SESSION['loginid'] <= 2)
 									
 									//print_r($results = mysql_fetch_array($q_answers ));
 									
-									$month=$_REQUEST['month'];
-									$user_email=$_SESSION['email'] ;
+									 $month=$_REQUEST['month'];
+									 $user_email=$_SESSION['email'] ;
 									questionReturn($qid,$month,$user_email);
 									$qa=questionReturn($qid,$month,$user_email);
-									//answerReturn($qid, $ans_strg_id);
-									//$an=answerReturn($qid, $ans_strg_id);
+									$qans=answerReturn($qid,$month,$user_email);
 									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp; <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Evidence</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Doc</a></div>';
-									 $ans=$qa[2];
-									//print_r($qa);
+									 $ans=$qans[2];
+									
 									
 									while($answer = mysql_fetch_assoc($answers))
 									{
-									  $k=$j++;
-									  $answer1 = $answer['answer_ans1'];
+									 $k=$j++;
+									 $answer1 = $answer['answer_ans1'];
 									 $answer2 = $answer['answer_ans2'];
 									 $answer3 = $answer['answer_ans3'];
 									 $answer_id = $answer['answer_id'];
 									 $q_id = $answer['answer_q_id'];
+									 
 									 
 									 ?>
 									
